@@ -1,8 +1,8 @@
-const productService = require("../service/product.js");
+const userService = require("../service/user.js");
 
-async function getAllProduct(req, res) {
+async function getAllUser(req, res) {
   try {
-    const rows = await productService.getAllProduct();
+    const rows = await userService.getAllUser();
 
     res.status(200).json(rows);
   } catch (error) {
@@ -13,84 +13,71 @@ async function getAllProduct(req, res) {
   }
 }
 
-async function createProduct(req, res) {
-  const { descricao, quantidadeEstoque, unidadeMedida, valorUnidade } =
-    req.body;
+async function createUser(req, res) {
+  const { name, email, password } = req.body;
 
   try {
-    await productService.createProduct(
-      descricao,
-      quantidadeEstoque,
-      unidadeMedida,
-      valorUnidade
-    );
+    await userService.createUser(name, email, password);
 
     res.status(201).json({ message: "Success" });
   } catch (error) {
     res.status(500).send({
-      message: "Error adding product!",
+      message: "Error adding user!",
       error: error.message,
     });
   }
 }
 
-async function updateProduct(req, res) {
+async function updateUser(req, res) {
   try {
     const { id } = req.params;
-    const { descricao, quantidadeEstoque, unidadeMedida, valorUnidade } =
-      req.params;
+    const { name, email, password } = req.params;
 
-    await productService.updateProduct(
-      id,
-      descricao,
-      quantidadeEstoque,
-      unidadeMedida,
-      valorUnidade
-    );
+    await userService.updateUser(id, name, email, password);
 
     res.status(204).json("Success");
   } catch (error) {
     res.status(500).send({
-      message: "Error update product!",
+      message: "Error update user!",
       error: error.message,
     });
   }
 }
 
-async function deleteProduct(req, res) {
+async function deleteUser(req, res) {
   try {
     const { id } = req.params;
 
-    await productService.deleteProduct(id);
+    await userService.deleteUser(id);
 
-    res.status(200).send({ message: "Deleted Product!" });
+    res.status(200).send({ message: "Deleted User!" });
   } catch (error) {
     res.status(500).send({
-      message: "Error deleting product!",
+      message: "Error deleting user!",
       error: error.message,
     });
   }
 }
 
-async function getProductById(req, res) {
+async function getUserById(req, res) {
   try {
     const { id } = req.params;
 
-    const product = await productService.getProductById(id);
+    const user = await userService.getUserById(id);
 
-    res.status(200).json(product);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).send({
-      message: "Error getting product By ID",
+      message: "Error getting user By ID",
       error: error.message,
     });
   }
 }
 
 module.exports = {
-  getAllProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  getProductById,
+  getAllUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserById,
 };

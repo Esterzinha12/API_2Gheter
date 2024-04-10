@@ -10,14 +10,14 @@ async function createDatabase() {
     });
 
     await connection.query(
-      CREATE DATABASE IF NOT EXISTS ${databaseConfig.database}
+      CREATE `DATABASE IF NOT EXISTS ${databaseConfig.database}`
     );
 
     await connection.end();
 
     console.log("Database created!");
   } catch (error) {
-    console.log(Error creating database: ${error});
+    console.log(`Error creating database: ${error}`);
   }
 }
 

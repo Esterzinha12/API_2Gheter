@@ -5,7 +5,7 @@ async function createUserTable() {
   try {
     const connection = await mysql.createConnection(databaseConfig);
 
-    await connection.query(USE ${databaseConfig.database});
+    await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.query(`CREATE TABLE IF NOT EXISTS user (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
