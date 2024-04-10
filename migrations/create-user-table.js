@@ -5,13 +5,20 @@ async function createUserTable() {
   try {
     const connection = await mysql.createConnection(databaseConfig);
 
-    await connection.query(`USE ${databaseConfig.database}`);
+await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.query(`CREATE TABLE IF NOT EXISTS user (
-        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL
+        idPESSOA INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(100) NOT NULL,
+        telefone VARCHAR(11) NOT NULL,
+        cnpj/cpf VARCHAR(15) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        FOREIGN KEY (idCONTRATO) REFERENCES contrato(idCONTRATO)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+        FOREIGN KEY (idANUNCIO) REFERENCES anuncio(idANUNCIO)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
     )`);
 
     await connection.end();
