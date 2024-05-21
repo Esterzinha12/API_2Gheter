@@ -13,12 +13,6 @@ await connection.query(`USE ${databaseConfig.database}`);
         telefone VARCHAR(11) NOT NULL,
         cnpj/cpf VARCHAR(15) NOT NULL,
         email VARCHAR(255) NOT NULL,
-        FOREIGN KEY (idCONTRATO) REFERENCES contrato(idCONTRATO)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-        FOREIGN KEY (idANUNCIO) REFERENCES anuncio(idANUNCIO)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
     )`);
 
     await connection.end();
