@@ -7,9 +7,10 @@ async function createAdvertisementTable() {
 
 await connection.query(`USE ${databaseConfig.database}`);
 
-    await connection.query(`CREATE TABLE IF NOT EXISTS advertisement (
+    await connection.query(`CREATE TABLE IF NOT EXISTS anuncio (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        description VARCHAR(100) NOT NULL,
+        empresa VARCHAR(45) NOT NULL,
+        funcao_vaga VARCHAR()
     )`);
 
     await connection.end();
