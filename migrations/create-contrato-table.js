@@ -14,12 +14,12 @@ await connection.query(`USE ${databaseConfig.database}`);
       valor_total VARCHAR(15) NOT NULL,
       duracao VARCHAR(45) NOT NULL,
       assinatura VARCHAR(45) NOT NULL,
-      USUARIO_idUSUARIO INT NOT NULL,
-      ANUNCIO_idANUNCIO INT NOT NULL,
-      FOREIGN KEY (USUARIO_idUSUARIO) REFERENCES usuario(id)
+      usuarioId INT NOT NULL,
+      anuncioId INT NOT NULL,
+      FOREIGN KEY (usuarioId) REFERENCES usuario(id)
       ON DELETE CASCADE
       ON UPDATE CASCADE,
-      FOREIGN KEY (ANUNCIO_idANUNCIO) REFERENCES anuncio(id)
+      FOREIGN KEY (anuncioId) REFERENCES anuncio(id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
     )`);

@@ -15,8 +15,8 @@ await connection.query(`USE ${databaseConfig.database}`);
       quantidade_vaga INT NOT NULL,
       data_anuncio DATE,
       valor_hora INT NOT NULL,
-      USUARIO_idUSUARIO INT NOT NULL,
-      FOREIGN KEY (USUARIO_idUSUARIO) REFERENCES usuario(id)
+      usuarioId INT NOT NULL,
+      FOREIGN KEY (usuarioId) REFERENCES usuario(id)
       ON DELETE CASCADE
       ON UPDATE CASCADE
     )`);
