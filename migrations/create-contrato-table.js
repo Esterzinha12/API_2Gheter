@@ -1,7 +1,7 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function createContractTable() {
+async function createContratoTable() {
   try {
     const connection = await mysql.createConnection(databaseConfig);
 
@@ -28,11 +28,11 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     console.log("Table contract created!");
   } catch (error) {
-    console.log(`Error creating table Contract: ${error}`);
+    console.log(`Error creating table Contrato: ${error}`);
   }
 }
 
-createContractTable();
+createContratoTable();
 
 
 

@@ -1,7 +1,7 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function createUserTable() {
+async function createUsuarioTable() {
   try {
     const connection = await mysql.createConnection(databaseConfig);
 
@@ -19,8 +19,8 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     console.log("Table user created!");
   } catch (error) {
-    console.log(`Error creating table User: ${error}`);
+    console.log(`Error creating table Usuario: ${error}`);
   }
 }
 
-createUserTable();
+createUsuarioTable();
