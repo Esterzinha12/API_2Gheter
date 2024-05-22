@@ -14,7 +14,7 @@ await connection.query(`USE ${databaseConfig.database}`);
       descricao VARCHAR(1000) NOT NULL,
       quantidade_vaga INT NOT NULL,
       data_anuncio DATE,
-      valor_hora INT NOT NULL,
+      valor_hora DOUBLE NOT NULL,
       usuarioId INT NOT NULL,
       FOREIGN KEY (usuarioId) REFERENCES usuario(id)
       ON DELETE CASCADE

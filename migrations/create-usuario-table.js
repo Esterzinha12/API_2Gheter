@@ -11,7 +11,7 @@ await connection.query(`USE ${databaseConfig.database}`);
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         nome VARCHAR(100) NOT NULL,
         telefone VARCHAR(11) NOT NULL,
-        cnpj/cpf VARCHAR(15) NOT NULL,
+        cnpj VARCHAR(15) NOT NULL,
         email VARCHAR(255) NOT NULL,
     )`);
 
