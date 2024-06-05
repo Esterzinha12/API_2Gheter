@@ -14,7 +14,6 @@ async function getAllContract(req, res) {
 }
 
 async function createContract(req, res) {
-  //alterar
   const { descricao, data_contrato, valor_total, duracao, assinatura } = req.body;
 
   try {

@@ -1,57 +1,73 @@
-const mysql = require("mysql2/promise"); //alterar
-const databaseConfig = require("../config/database.js");
+const contractService = require("./contractService.js");
+async function getAllContract(req, res) {
+  try {
+    const rows = await contractService.getAllContract();
 
-async function getAllContract() {
-  const connection = await mysql.createConnection(databaseConfig);
-
-  const [rows] = await connection.query("SELECT * FROM contrato");
-
-  await connection.end();
-
-  return rows;
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting users",
+      body: error.message,
+    });
+  }
 }
 
-async function createContract(descricao, data_contrato, valor_total, duracao, assinatura) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function createContract(req, res) {
+  const { descricao, data_contrato, valor_total, duracao, assinatura } = req.body;
 
-  const insertContract =
-    "INSERT INTO contrato(descricao, data_contrato, valor_total, duracao, assinatura) VALUES(?, ?, ?)";
+  try {
+    await contractService.createContract(descricao, data_contrato, valor_total, duracao, assinatura);
 
-  await connection.query(insertContract, [descricao, data_contrato, valor_total, duracao, assinatura]);
-
-  await connection.end();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error adding user!",
+      error: error.message,
+    });
+  }
 }
+async function updateContract(req, res) {
+  try {
+    const { id } = req.params;
+    const { descricao, data_contrato, valor_total, duracao, assinatura } = req.params;
 
-async function updateContract(id, descricao, data_contrato, valor_total, duracao, assinatura) {
-  const connection = await mysql.createConnection(databaseConfig);
+    await contractService.updateContract(id, descricao, data_contrato, valor_total, duracao, assinatura);
 
-  const updateContract =
-    "UPDATE contrato SET descricao = ?, data_contrato = ?, valor_total = ?, duracao = ?, assinatura = ? WHERE id = ?";
-
-  await connection.query(updateContract, [descricao, data_contrato, valor_total, duracao, assinatura, id]);
-
-  await connection.end();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).send({
+      message: "Error update user!",
+      error: error.message,
+    });
+  }
 }
+async function deleteContract(req, res) {
+  try {
+    const { id } = req.params;
 
-async function deleteContract(id) {
-  const connection = await mysql.createConnection(databaseConfig);
+    await contractService.deleteContract(id);
 
-  await connection.query("DELETE FROM contrato WHERE id = ?", [id]);
-
-  await connection.end();
+    res.status(200).send({ message: "Deleted User!" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error deleting user!",
+      error: error.message,
+    });
+  }
 }
+async function getContractById(req, res) {
+  try {
+    const { id } = req.params;
 
-async function getContractById(id) {
-  const connection = await mysql.createConnection(databaseConfig);
+    const user = await contractService.getContractById(id);
 
-  const [contrato] = await connection.query(
-    "SELECT * FROM contrato WHERE id = ?",
-    [id]
-  );
-
-  await connection.end();
-
-  return contrato;
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting user By ID",
+      error: error.message,
+    });
+  }
 }
 
 module.exports = {

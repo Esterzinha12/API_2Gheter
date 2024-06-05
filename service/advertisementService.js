@@ -1,38 +1,48 @@
-const mysql = require("mysql2/promise"); //alterar
-const databaseConfig = require("../config/database.js");
+const advertisementService = require("./advertisementService.js");
 
-async function getAllAdvertisement() {
-  const connection = await mysql.createConnection(databaseConfig);
+async function getAllAdvertisement(req, res) {
+  try {
+    const rows = await advertisementService.getAllAdvertisement();
 
-  const [rows] = await connection.query("SELECT * FROM advertisement");
-
-  await connection.end();
-
-  return rows;
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting users",
+      body: error.message,
+    });
+  }
 }
 
-async function createAdvertisement(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function createAdvertisement(req, res) {
+  const { empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora } = req.body;
 
-  const insertAdvertisement =
-    "INSERT INTO advertisement(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) VALUES(?, ?, ?, ?, ?, ?)";
+  try {
+    await advertisementService.createAdvertisement(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora);
 
-  await connection.query(insertAdvertisement, [empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora]);
-
-  await connection.end();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error adding user!",
+      error: error.message,
+    });
+  }
 }
 
-async function updateAdvertisement(id, empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function updateAdvertisement(req, res) {
+  try {
+    const { id } = req.params;
+    const { empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora } = req.params;
 
-  const updateAdvertisement =
-    "UPDATE advertisement SET empresa = ?, funcao_vaga = ?, descricao = ?, quantidade_vaga = ?, data_anuncio = ?, valor_hora = ? WHERE id = ?";
+    await advertisementService.updateAdvertisement(id, empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora);
 
-  await connection.query(updateAdvertisement, [empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora, id]);
-
-  await connection.end();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).send({
+      message: "Error update user!",
+      error: error.message,
+    });
+  }
 }
-
 async function deleteAdvertisement(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
@@ -40,7 +50,20 @@ async function deleteAdvertisement(id) {
 
   await connection.end();
 }
+async function deleteAdvertisement(req, res) {
+  try {
+    const { id } = req.params;
 
+    await advertisementService.deleteAdvertisement(id);
+
+    res.status(200).send({ message: "Deleted Advertisement!" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error deleting user!",
+      error: error.message,
+    });
+  }
+}
 async function getAdvertisementById(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
@@ -52,6 +75,20 @@ async function getAdvertisementById(id) {
   await connection.end();
 
   return advertisement;
+}
+async function getAdvertisementById(req, res) {
+  try {
+    const { id } = req.params;
+
+    const user = await advertisementService.getAdvertisementById(id);
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting user By ID",
+      error: error.message,
+    });
+  }
 }
 
 module.exports = {
