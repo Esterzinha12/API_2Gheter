@@ -1,13 +1,13 @@
-const anuncioService = require("../service/anuncioController.js");
+const anuncioService = require("../service/anuncioService.js");
 
 async function buscarAnuncios(req, res) {
   try {
-    const rows = await anuncioService.getAllanuncio();
+    const rows = await anuncioService.getAllAnuncio();
 
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar anuncio",
+      message: "Erro ao buscar anuncio",
       body: error.message,
     });
   }
@@ -24,7 +24,7 @@ async function criarAnuncio(req, res) {
   } = req.body;
 
   try {
-    await anuncioService.createanuncio(
+    await anuncioService.criarAnuncio(
       empresa,
       funcao_vaga,
       descricao,
@@ -36,7 +36,7 @@ async function criarAnuncio(req, res) {
     res.status(201).json({ message: "Sucesso" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro criar anuncio!",
+      message: "Erro ao criar anuncio!",
       error: error.message,
     });
   }
@@ -54,7 +54,7 @@ async function editarAnuncio(req, res) {
       valor_hora,
     } = req.params;
 
-    await anuncioService.updateanuncio(
+    await anuncioService.editarAnuncio(
       id,
       empresa,
       funcao_vaga,
@@ -77,12 +77,12 @@ async function deletarAnuncio(req, res) {
   try {
     const { id } = req.params;
 
-    await anuncioService.deleteanuncio(id);
+    await anuncioService.deletarAnuncio(id);
 
     res.status(200).send({ message: "Deletar anuncio!" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro deletar anuncio!",
+      message: "Erro ao deletar anuncio!",
       error: error.message,
     });
   }
@@ -92,12 +92,12 @@ async function buscarAnuncioId(req, res) {
   try {
     const { id } = req.params;
 
-    const anuncio = await anuncioService.getanuncioById(id);
+    const anuncio = await anuncioService.buscarAnuncioId(id);
 
     res.status(200).json(anuncio);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar anuncio por id",
+      message: "Erro ao buscar anuncio por id",
       error: error.message,
     });
   }

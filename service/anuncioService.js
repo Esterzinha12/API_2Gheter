@@ -2,51 +2,81 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function getAllAdvertisement() {
+async function getAllAnuncio() {
   const connection = await mysql.createConnection(databaseConfig);
 
-  const [rows] = await connection.query("SELECT * FROM advertisement");
+  const [rows] = await connection.query("SELECT * FROM anuncio");
 
   await connection.end();
 
   return rows;
 }
 
-async function createAdvertisement(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) {
+async function criarAnuncio(
+  empresa,
+  funcao_vaga,
+  descricao,
+  quantidade_vaga,
+  data_anuncio,
+  valor_hora
+) {
   const connection = await mysql.createConnection(databaseConfig);
 
-  const insertAdvertisement =
-    "INSERT INTO advertisement(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) VALUES(?, ?, ?, ?, ?, ?)";
+  const inserirAnuncio =
+    "INSERT INTO anuncio(empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) VALUES(?, ?, ?, ?, ?, ?)";
 
-  await connection.query(insertAdvertisement, [empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora]);
+  await connection.query(inserirAnuncio, [
+    empresa,
+    funcao_vaga,
+    descricao,
+    quantidade_vaga,
+    data_anuncio,
+    valor_hora,
+  ]);
 
   await connection.end();
 }
 
-async function updateAdvertisement(id, empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora) {
+async function editarAnuncio(
+  id,
+  empresa,
+  funcao_vaga,
+  descricao,
+  quantidade_vaga,
+  data_anuncio,
+  valor_hora
+) {
   const connection = await mysql.createConnection(databaseConfig);
 
-  const updateAdvertisement =
-    "UPDATE advertisement SET empresa = ?, funcao_vaga = ?, descricao = ?, quantidade_vaga = ?, data_anuncio = ?, valor_hora = ? WHERE id = ?";
+  const editarAnuncio =
+    "UPDATE anuncio SET empresa = ?, funcao_vaga = ?, descricao = ?, quantidade_vaga = ?, data_anuncio = ?, valor_hora = ? WHERE id = ?";
 
-  await connection.query(updateAdvertisement, [empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora, id]);
+  await connection.query(editarAnuncio, [
+    empresa,
+    funcao_vaga,
+    descricao,
+    quantidade_vaga,
+    data_anuncio,
+    valor_hora,
+    id,
+  ]);
 
   await connection.end();
 }
 
-async function deleteAdvertisement(id) {
+async function deletarAnuncio(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
-  await connection.query("DELETE FROM advertisement WHERE id = ?", [id]);
+  await connection.query("DELETE FROM anuncio WHERE id = ?", [id]);
 
   await connection.end();
 }
 
-async function getAdvertisementById(id) {
+async function buscarAnuncioId(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
   const [advertisement] = await connection.query(
-    "SELECT * FROM advertisement WHERE id = ?",
+    "SELECT * FROM anuncio WHERE id = ?",
     [id]
   );
 
@@ -56,9 +86,9 @@ async function getAdvertisementById(id) {
 }
 
 module.exports = {
-  getAllAdvertisement,
-  createAdvertisement,
-  updateAdvertisement,
-  deleteAdvertisement,
-  getAdvertisementById,
+  getAllAnuncio,
+  criarAnuncio,
+  editarAnuncio,
+  deletarAnuncio,
+  buscarAnuncioId,
 };
