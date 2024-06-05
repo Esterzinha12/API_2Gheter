@@ -69,7 +69,7 @@ async function buscarContratoId(req, res) {
     res.status(200).json(contrato);
   } catch (error) {
     res.status(500).send({
-      message: "Error getting contrato By ID",
+      message: "Erro buscar contrato por id",
       error: error.message,
     });
   }
