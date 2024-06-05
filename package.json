@@ -4,7 +4,8 @@
   "description": "Your project description",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js" 
+    "start": "node app.js",
+    "migrate": "node ./migrations/migrations.js"
   },
   "author": "Your Name",
   "license": "ISC",

@@ -10,7 +10,7 @@ async function createDatabase() {
     });
 
     await connection.query(
-      CREATE `DATABASE IF NOT EXISTS ${databaseConfig.database}`
+       `CREATE DATABASE IF NOT EXISTS ${databaseConfig.database}`
     );
 
     await connection.end();
@@ -20,5 +20,6 @@ async function createDatabase() {
     console.log(`Error creating database: ${error}`);
   }
 }
-
-createDatabase();
+module.exports={
+  createDatabase
+}
