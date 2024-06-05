@@ -2,11 +2,11 @@ const userService = require("../service/usuarioService.js");
 
 async function buscarUsuario(req, res) {
   try {
-    const rows = await userService.getAllUser();
+    const rows = await userService.buscarUsuario();
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar Usuário",
+      message: "Erro ao buscar Usuário",
       body: error.message,
     });
   }
@@ -15,11 +15,11 @@ async function buscarUsuario(req, res) {
 async function criarUsuario(req, res) {
   const { name, email, password } = req.body;
   try {
-    await userService.createUser(name, email, password);
+    await userService.criarUsuario(name, email, password);
     res.status(201).json({ message: "sucesso" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro criar Usuário",
+      message: "Erro ao criar Usuário",
       error: error.message,
     });
   }
@@ -29,11 +29,11 @@ async function editarUsuario(req, res) {
   try {
     const { id } = req.params;
     const { name, email, password } = req.body;
-    await userService.updateUser(id, name, email, password);
+    await userService.editarUsuario(id, name, email, password);
     res.status(204).json("Successo");
   } catch (error) {
     res.status(500).send({
-      message: "Erro editar Usuário",
+      message: "Erro ao editar Usuário",
       error: error.message,
     });
   }
@@ -42,11 +42,11 @@ async function editarUsuario(req, res) {
 async function deletarUsuario(req, res) {
   try {
     const { id } = req.params;
-    await userService.deleteUser(id);
+    await userService.deletarUsuario(id);
     res.status(200).send({ message: "Usuário deletado" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro deletar Usuário",
+      message: "Erro ao deletar Usuário",
       error: error.message,
     });
   }
@@ -55,11 +55,11 @@ async function deletarUsuario(req, res) {
 async function buscarUsuarioId(req, res) {
   try {
     const { id } = req.params;
-    const user = await userService.getUserById(id);
+    const user = await userService.buscarUsuarioId(id);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar usuário id",
+      message: "Erro ao buscar usuário id",
       error: error.message,
     });
   }

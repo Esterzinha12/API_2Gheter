@@ -2,28 +2,34 @@ const contratoService = require("../service/contratoService.js");
 
 async function buscarContratos(req, res) {
   try {
-    const rows = await contratoService.getAllContract();
+    const rows = await contratoService.buscarContratos();
 
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar contrato",
+      message: "Erro ao buscar contrato",
       body: error.message,
     });
   }
 }
 
-
 async function criarContrato(req, res) {
-  const { descricao, data_contrato, valor_total, duracao, assinatura } = req.body;
+  const { descricao, data_contrato, valor_total, duracao, assinatura } =
+    req.body;
 
   try {
-    await contratoService.createContract(descricao, data_contrato, valor_total, duracao, assinatura);
+    await contratoService.criarContrato(
+      descricao,
+      data_contrato,
+      valor_total,
+      duracao,
+      assinatura
+    );
 
     res.status(201).json({ message: "Sucesso" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro criar contrato!",
+      message: "Erro ao criar contrato!",
       error: error.message,
     });
   }
@@ -32,14 +38,22 @@ async function criarContrato(req, res) {
 async function editarContrato(req, res) {
   try {
     const { id } = req.params;
-    const { descricao, data_contrato, valor_total, duracao, assinatura } = req.params;
+    const { descricao, data_contrato, valor_total, duracao, assinatura } =
+      req.params;
 
-    await contratoService.updateContract(id, descricao, data_contrato, valor_total, duracao, assinatura);
+    await contratoService.editarContrato(
+      id,
+      descricao,
+      data_contrato,
+      valor_total,
+      duracao,
+      assinatura
+    );
 
     res.status(204).json("Successo");
   } catch (error) {
     res.status(500).send({
-      message: "Erro editar contrato!",
+      message: "Erro ao editar contrato!",
       error: error.message,
     });
   }
@@ -49,7 +63,7 @@ async function deletarContrato(req, res) {
   try {
     const { id } = req.params;
 
-    await contratoService.deleteContract(id);
+    await contratoService.deletarContrato(id);
 
     res.status(200).send({ message: "Contrato deletado" });
   } catch (error) {
@@ -64,12 +78,12 @@ async function buscarContratoId(req, res) {
   try {
     const { id } = req.params;
 
-    const contrato = await contratoService.getContractById(id);
+    const contrato = await contratoService.buscarContratoId(id);
 
     res.status(200).json(contrato);
   } catch (error) {
     res.status(500).send({
-      message: "Erro buscar contrato por id",
+      message: "Erro ao buscar contrato por id",
       error: error.message,
     });
   }

@@ -1,8 +1,7 @@
-
-const mysql = require("mysql2/promise"); 
+const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function getAllContract() {
+async function buscarContratos() {
   const connection = await mysql.createConnection(databaseConfig);
 
   const [rows] = await connection.query("SELECT * FROM contrato");
@@ -11,29 +10,55 @@ async function getAllContract() {
 
   return rows;
 }
-async function createContract(descricao, data_contrato, valor_total, duracao, assinatura) {
+async function criarContrato(
+  descricao,
+  data_contrato,
+  valor_total,
+  duracao,
+  assinatura
+) {
   const connection = await mysql.createConnection(databaseConfig);
 
   const insertContract =
     "INSERT INTO contrato(descricao, data_contrato, valor_total, duracao, assinatura) VALUES(?, ?, ?)";
 
-  await connection.query(insertContract, [descricao, data_contrato, valor_total, duracao, assinatura]);
+  await connection.query(insertContract, [
+    descricao,
+    data_contrato,
+    valor_total,
+    duracao,
+    assinatura,
+  ]);
 
   await connection.end();
 }
 
-async function updateContract(id, descricao, data_contrato, valor_total, duracao, assinatura) {
+async function editarContrato(
+  id,
+  descricao,
+  data_contrato,
+  valor_total,
+  duracao,
+  assinatura
+) {
   const connection = await mysql.createConnection(databaseConfig);
 
   const updateContract =
     "UPDATE contrato SET descricao = ?, data_contrato = ?, valor_total = ?, duracao = ?, assinatura = ? WHERE id = ?";
 
-  await connection.query(updateContract, [descricao, data_contrato, valor_total, duracao, assinatura, id]);
+  await connection.query(updateContract, [
+    descricao,
+    data_contrato,
+    valor_total,
+    duracao,
+    assinatura,
+    id,
+  ]);
 
   await connection.end();
 }
 
-async function deleteContract(id) {
+async function deletarContrato(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
   await connection.query("DELETE FROM contrato WHERE id = ?", [id]);
@@ -41,7 +66,7 @@ async function deleteContract(id) {
   await connection.end();
 }
 
-async function getContractById(id) {
+async function buscarContratoId(id) {
   const connection = await mysql.createConnection(databaseConfig);
 
   const [contrato] = await connection.query(
@@ -55,9 +80,9 @@ async function getContractById(id) {
 }
 
 module.exports = {
-  getAllContract,
-  createContract,
-  updateContract,
-  deleteContract,
-  getContractById,
+  buscarContratos,
+  criarContrato,
+  editarContrato,
+  deletarContrato,
+  buscarContratoId,
 };

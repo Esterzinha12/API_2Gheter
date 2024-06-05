@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const contractController = require("../controller/contratoController.js");
+const contratoController = require("../controller/contratoController.js");
 
-router.get("/contract", contractController.getAllContract);
-router.post("/contract", contractController.createContract);
-router.put("/contract/:id", contractController.updateContract);
-router.delete("/contract/:id", contractController.deleteContract);
-router.get("/contract/:id", contractController.getContractById);
+router.get("/contrato", contratoController.buscarContratos);
+router.post("/contrato", contratoController.criarContrato);
+router.put("/contrato/:id", contratoController.editarContrato);
+router.delete("/contrato/:id", contratoController.deletarContrato);
+router.get("/contrato/:id", contratoController.buscarContratoId);
 
 module.exports = router;
