@@ -7,7 +7,7 @@ async function getAllAdvertisement(req, res) {
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Error getting advertisements",
+      message: "Erro buscar anuncio",
       body: error.message,
     });
   }
@@ -20,10 +20,10 @@ async function createAdvertisement(req, res) {
   try {
     await advertisementService.createAdvertisement( empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora);
 
-    res.status(201).json({ message: "Success" });
+    res.status(201).json({ message: "Sucesso" });
   } catch (error) {
     res.status(500).send({
-      message: "Error adding advertisement!",
+      message: "Erro criar anuncio!",
       error: error.message,
     });
   }
@@ -37,10 +37,10 @@ async function updateAdvertisement(req, res) {
 
     await advertisementService.updateAdvertisement(id, empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora);
 
-    res.status(204).json("Success");
+    res.status(204).json("Sucesso");
   } catch (error) {
     res.status(500).send({
-      message: "Error update advertisement!",
+      message: "Erro editar anuncio!",
       error: error.message,
     });
   }
@@ -52,10 +52,10 @@ async function deleteAdvertisement(req, res) {
 
     await advertisementService.deleteAdvertisement(id);
 
-    res.status(200).send({ message: "Deleted Advertisement!" });
+    res.status(200).send({ message: "Deletar anuncio!" });
   } catch (error) {
     res.status(500).send({
-      message: "Error deleting advertisement!",
+      message: "Erro deletar anuncio!",
       error: error.message,
     });
   }
@@ -70,7 +70,7 @@ async function getAdvertisementById(req, res) {
     res.status(200).json(advertisement);
   } catch (error) {
     res.status(500).send({
-      message: "Error getting advertisement By ID",
+      message: "Erro buscar anuncio por id",
       error: error.message,
     });
   }
