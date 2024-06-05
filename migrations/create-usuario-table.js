@@ -5,14 +5,14 @@ async function createUsuarioTable() {
   try {
     const connection = await mysql.createConnection(databaseConfig);
 
-await connection.query(`USE ${databaseConfig.database}`);
+    await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.query(`CREATE TABLE IF NOT EXISTS usuario (
         id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
         nome VARCHAR(100) NOT NULL,
         telefone VARCHAR(11) NOT NULL,
         cnpj VARCHAR(15) NOT NULL,
-        email VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL
     )`);
 
     await connection.end();
@@ -23,4 +23,6 @@ await connection.query(`USE ${databaseConfig.database}`);
   }
 }
 
-createUsuarioTable();
+module.exports = {
+  createUsuarioTable,
+};

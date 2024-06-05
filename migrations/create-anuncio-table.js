@@ -29,4 +29,6 @@ await connection.query(`USE ${databaseConfig.database}`);
   }
 }
 
-createAnuncioTable();
+module.exports={
+createAnuncioTable
+}

@@ -31,8 +31,9 @@ await connection.query(`USE ${databaseConfig.database}`);
     console.log(`Erro criar tabela Contrato: ${error}`);
   }
 }
-
-createContratoTable();
+module.exports={
+  createContratoTable
+}
 
 
 
