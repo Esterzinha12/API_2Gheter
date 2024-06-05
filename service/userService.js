@@ -1,55 +1,77 @@
-const mysql = require("mysql2/promise");
-const databaseConfig = require("../config/database.js");
+const userService = require("../service/user.js");
 
-async function getAllUser() {
-  const connection = await mysql.createConnection(databaseConfig);
+async function getAllUser(req, res) {
+  try {
+    const rows = await userService.getAllUser();
 
-  const [rows] = await connection.query("SELECT * FROM user");
-
-  await connection.end();
-
-  return rows;
+    res.status(200).json(rows);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting users",
+      body: error.message,
+    });
+  }
 }
 
-async function createUser(name, email, password) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function createUser(req, res) {
+  const { name, email, password } = req.body;
 
-  const insertUser = "INSERT INTO user(name, email, password) VALUES(?, ?, ?)";
+  try {
+    await userService.createUser(name, email, password);
 
-  await connection.query(insertUser, [name, email, password]);
-
-  await connection.end();
+    res.status(201).json({ message: "Success" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error adding user!",
+      error: error.message,
+    });
+  }
 }
 
-async function updateUser(id, name, email, password) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function updateUser(req, res) {
+  try {
+    const { id } = req.params;
+    const { name, email, password } = req.params;
 
-  const updateUser =
-    "UPDATE user SET name = ?, email = ?, password = ? WHERE id = ?";
+    await userService.updateUser(id, name, email, password);
 
-  await connection.query(updateUser, [name, email, password, id]);
-
-  await connection.end();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).send({
+      message: "Error update user!",
+      error: error.message,
+    });
+  }
 }
 
-async function deleteUser(id) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function deleteUser(req, res) {
+  try {
+    const { id } = req.params;
 
-  await connection.query("DELETE FROM user WHERE id = ?", [id]);
+    await userService.deleteUser(id);
 
-  await connection.end();
+    res.status(200).send({ message: "Deleted User!" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Error deleting user!",
+      error: error.message,
+    });
+  }
 }
 
-async function getUserById(id) {
-  const connection = await mysql.createConnection(databaseConfig);
+async function getUserById(req, res) {
+  try {
+    const { id } = req.params;
 
-  const [user] = await connection.query("SELECT * FROM user WHERE id = ?", [
-    id,
-  ]);
+    const user = await userService.getUserById(id);
 
-  await connection.end();
-
-  return user;
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).send({
+      message: "Error getting user By ID",
+      error: error.message,
+    });
+  }
 }
 
 module.exports = {
