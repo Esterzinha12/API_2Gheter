@@ -1,6 +1,6 @@
-const advertisementService = require("../service/advertisement.js");
+const advertisementService = require("../service/anuncioController.js");
 
-async function getAllAdvertisement(req, res) {
+async function buscarAnuncios(req, res) {
   try {
     const rows = await advertisementService.getAllAdvertisement();
 
@@ -13,7 +13,7 @@ async function getAllAdvertisement(req, res) {
   }
 }
 
-async function createAdvertisement(req, res) {
+async function criarAnuncio(req, res) {
   //alterar
   const {  empresa, funcao_vaga, descricao, quantidade_vaga, data_anuncio, valor_hora } = req.body;
 
@@ -29,7 +29,7 @@ async function createAdvertisement(req, res) {
   }
 }
 
-async function updateAdvertisement(req, res) {
+async function editarAnuncio(req, res) {
   //alterar
   try {
     const { id } = req.params;
@@ -46,7 +46,7 @@ async function updateAdvertisement(req, res) {
   }
 }
 
-async function deleteAdvertisement(req, res) {
+async function deletarAnuncio(req, res) {
   try {
     const { id } = req.params;
 
@@ -61,7 +61,7 @@ async function deleteAdvertisement(req, res) {
   }
 }
 
-async function getAdvertisementById(req, res) {
+async function buscarAnuncioId(req, res) {
   try {
     const { id } = req.params;
 
@@ -77,9 +77,9 @@ async function getAdvertisementById(req, res) {
 }
 
 module.exports = {
-  getAllAdvertisement,
-  createAdvertisement,
-  updateAdvertisement,
-  deleteAdvertisement,
-  getAdvertisementById,
+  buscarAnuncios,
+  criarAnuncio,
+  editarAnuncio,
+  deletarAnuncio,
+  buscarAnuncioId,
 };

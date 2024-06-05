@@ -1,67 +1,66 @@
-const contratoService = require("../service/contrato.js");
+const contratoService = require("../service/contratoService.js");
 
-async function getAllContract(req, res) {
+async function buscarContratos(req, res) {
   try {
     const rows = await contratoService.getAllContract();
 
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Error getting contratos",
+      message: "Erro buscar contrato",
       body: error.message,
     });
   }
 }
 
-async function createContract(req, res) {
-  //alterar
+async function criarContrato(req, res) {
+
   const { descricao, data_contrato, valor_total, duracao, assinatura } = req.body;
 
   try {
     await contratoService.createContract(descricao, data_contrato, valor_total, duracao, assinatura);
 
-    res.status(201).json({ message: "Success" });
+    res.status(201).json({ message: "Sucesso" });
   } catch (error) {
     res.status(500).send({
-      message: "Error adding contrato!",
+      message: "Erro criar contrato!",
       error: error.message,
     });
   }
 }
 
-async function updateContract(req, res) {
-  //alterar
+async function editarContrato(req, res) {
   try {
     const { id } = req.params;
     const { descricao, data_contrato, valor_total, duracao, assinatura } = req.params;
 
     await contratoService.updateContract(id, descricao, data_contrato, valor_total, duracao, assinatura);
 
-    res.status(204).json("Success");
+    res.status(204).json("Successo");
   } catch (error) {
     res.status(500).send({
-      message: "Error update contrato!",
+      message: "Erro editar contrato!",
       error: error.message,
     });
   }
 }
 
-async function deleteContract(req, res) {
+async function deletarContrato(req, res) {
   try {
     const { id } = req.params;
 
     await contratoService.deleteContract(id);
 
-    res.status(200).send({ message: "Deleted Contract!" });
+    res.status(200).send({ message: "Contrato deletado" });
   } catch (error) {
     res.status(500).send({
-      message: "Error deleting contrato!",
+      message: "Erro ao deletar contrato",
       error: error.message,
     });
   }
 }
 
-async function getContractById(req, res) {
+async function buscarContratoId(req, res) {
   try {
     const { id } = req.params;
 
@@ -77,9 +76,9 @@ async function getContractById(req, res) {
 }
 
 module.exports = {
-  getAllContract,
-  createContract,
-  updateContract,
-  deleteContract,
-  getContractById,
+  buscarContratos,
+  criarContrato,
+  editarContrato,
+  deletarContrato,
+  buscarContratoId,
 };
