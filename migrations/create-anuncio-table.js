@@ -23,9 +23,9 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.end();
 
-    console.log("Table advertisement created!");
+    console.log("Tabela anuncio criada!");
   } catch (error) {
-    console.log(`Error creating table Anuncio: ${error}`);
+    console.log(`Erro criar tabela Anuncio: ${error}`);
   }
 }
 

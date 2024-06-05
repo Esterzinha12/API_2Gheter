@@ -15,9 +15,9 @@ async function createDatabase() {
 
     await connection.end();
 
-    console.log("Database created!");
+    console.log("Database criada!");
   } catch (error) {
-    console.log(`Error creating database: ${error}`);
+    console.log(`Erro criar database: ${error}`);
   }
 }
 module.exports={
