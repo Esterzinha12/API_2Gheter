@@ -15,8 +15,6 @@ async function buscarContratos(req, res) {
 
 
 async function criarContrato(req, res) {
-
-async function createContract(req, res) {
   const { descricao, data_contrato, valor_total, duracao, assinatura } = req.body;
 
   try {
