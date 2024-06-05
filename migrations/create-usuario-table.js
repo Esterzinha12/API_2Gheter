@@ -17,9 +17,9 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.end();
 
-    console.log("Table user created!");
+    console.log("Tabela Usuario criada!");
   } catch (error) {
-    console.log(`Error creating table Usuario: ${error}`);
+    console.log(`Error criar tabela Usuario: ${error}`);
   }
 }
 

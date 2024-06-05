@@ -26,9 +26,9 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.end();
 
-    console.log("Table contract created!");
+    console.log("Tabela contrato criada!");
   } catch (error) {
-    console.log(`Error creating table Contrato: ${error}`);
+    console.log(`Erro criar tabela Contrato: ${error}`);
   }
 }
 
