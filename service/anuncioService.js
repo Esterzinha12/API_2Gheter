@@ -1,4 +1,5 @@
-const mysql = require("mysql2/promise"); //alterar
+
+const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
 async function getAllAdvertisement() {

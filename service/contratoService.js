@@ -1,4 +1,5 @@
-const mysql = require("mysql2/promise"); //alterar
+
+const mysql = require("mysql2/promise"); 
 const databaseConfig = require("../config/database.js");
 
 async function getAllContract() {
@@ -10,7 +11,6 @@ async function getAllContract() {
 
   return rows;
 }
-
 async function createContract(descricao, data_contrato, valor_total, duracao, assinatura) {
   const connection = await mysql.createConnection(databaseConfig);
 

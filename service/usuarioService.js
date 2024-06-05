@@ -1,82 +1,63 @@
-const userService = require("./usuarioService.js");
-async function getAllUser(req, res) {
-  try {
-    const rows = await userService.getAllUser();
 
-    res.status(200).json(rows);
-  } catch (error) {
-    res.status(500).send({
-      message: "Error getting users",
-      body: error.message,
-    });
-  }
+const mysql = require("mysql2/promise"); 
+const databaseConfig = require("../config/database.js");
+
+async function getAllUsuario() {
+  const connection = await mysql.createConnection(databaseConfig);
+
+  const [rows] = await connection.query("SELECT * FROM usuario");
+
+  await connection.end();
+
+  return rows;
+}
+async function createUsuario(name, email, password) {
+  const connection = await mysql.createConnection(databaseConfig);
+
+  const insertUsuario =
+    "INSERT INTO usuario(name, email, password) VALUES(?, ?, ?)";
+
+  await connection.query(insertUsuario, [name, email, password]);
+
+  await connection.end();
 }
 
-async function createUser(req, res) {
-  const { name, email, password } = req.body;
+async function updateUsuario(id, name, email, password) {
+  const connection = await mysql.createConnection(databaseConfig);
 
-  try {
-    await userService.createUser(name, email, password);
+  const updateUsuario =
+    "UPDATE usuario SET name = ?, email = ?, password = ? WHERE id = ?";
 
-    res.status(201).json({ message: "Success" });
-  } catch (error) {
-    res.status(500).send({
-      message: "Error adding user!",
-      error: error.message,
-    });
-  }
+  await connection.query(updateUsuario, [name, email, password, id]);
+
+  await connection.end();
 }
 
-async function updateUser(req, res) {
-  try {
-    const { id } = req.params;
-    const { name, email, password } = req.params;
+async function deleteUsuario(id) {
+  const connection = await mysql.createConnection(databaseConfig);
 
-    await userService.updateUser(id, name, email, password);
+  await connection.query("DELETE FROM usuario WHERE id = ?", [id]);
 
-    res.status(204).json("Success");
-  } catch (error) {
-    res.status(500).send({
-      message: "Error update user!",
-      error: error.message,
-    });
-  }
+  await connection.end();
 }
 
-async function deleteUser(req, res) {
-  try {
-    const { id } = req.params;
+async function getUsuarioById(id) {
+  const connection = await mysql.createConnection(databaseConfig);
 
-    await userService.deleteUser(id);
+  const [ usuario ] = await connection.query(
+    "SELECT * FROM usuario WHERE id = ?",
+    [id]
+  );
 
-    res.status(200).send({ message: "Deleted User!" });
-  } catch (error) {
-    res.status(500).send({
-      message: "Error deleting user!",
-      error: error.message,
-    });
-  }
-}
+  await connection.end();
 
-async function getUserById(req, res) {
-  try {
-    const { id } = req.params;
-
-    const user = await userService.getUserById(id);
-
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).send({
-      message: "Error getting user By ID",
-      error: error.message,
-    });
-  }
+  return usuario;
 }
 
 module.exports = {
-  getAllUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  getUserById,
+  getAllUsuario,
+  createUsuario,
+  updateUsuario,
+  deleteUsuario,
+  getUsuarioById,
 };
