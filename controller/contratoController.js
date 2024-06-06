@@ -28,7 +28,7 @@ async function criarContrato(req, res) {
       anuncioId
     );
 
-    res.status(201).json({ message: "Sucesso" });
+    res.status(201).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro ao criar contrato!",
@@ -41,7 +41,7 @@ async function editarContrato(req, res) {
   try {
     const { id } = req.params;
     const { descricao, data_contrato, valor_total, duracao, assinatura, usuarioId, anuncioId } =
-      req.params;
+      req.body;
 
     await contratoService.editarContrato(
       id,
@@ -54,7 +54,7 @@ async function editarContrato(req, res) {
       anuncioId
     );
 
-    res.status(204).json("Successo");
+    res.status(204).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro ao editar contrato!",

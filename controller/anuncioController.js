@@ -55,7 +55,7 @@ async function editarAnuncio(req, res) {
       data_anuncio,
       valor_hora,
       usuarioId
-    } = req.params;
+    } = req.body;
 
     await anuncioService.editarAnuncio(
       id,
@@ -68,7 +68,7 @@ async function editarAnuncio(req, res) {
       usuarioId
     );
 
-    res.status(204).json("Sucesso");
+    res.status(204).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro editar anuncio!",

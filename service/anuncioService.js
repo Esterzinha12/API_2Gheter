@@ -2,7 +2,7 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function getAllAnuncio() {
+async function buscarAnuncios() {
   const connection = await mysql.createConnection(databaseConfig);
 
   const [rows] = await connection.query("SELECT * FROM anuncio");
@@ -46,9 +46,11 @@ async function editarAnuncio(
   descricao,
   quantidade_vaga,
   data_anuncio,
-  valor_hora
+  valor_hora,
+  usuarioId
 ) {
   const connection = await mysql.createConnection(databaseConfig);
+
 
   const editarAnuncio =
     "UPDATE anuncio SET empresa = ?, funcao_vaga = ?, descricao = ?, quantidade_vaga = ?, data_anuncio = ?, valor_hora = ?, usuarioId = ? WHERE id = ?";
@@ -60,6 +62,7 @@ async function editarAnuncio(
     quantidade_vaga,
     data_anuncio,
     valor_hora,
+    usuarioId,
     id,
   ]);
 
@@ -88,7 +91,7 @@ async function buscarAnuncioId(id) {
 }
 
 module.exports = {
-  getAllAnuncio,
+  buscarAnuncios,
   criarAnuncio,
   editarAnuncio,
   deletarAnuncio,

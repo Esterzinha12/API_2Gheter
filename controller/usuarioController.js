@@ -30,7 +30,7 @@ async function editarUsuario(req, res) {
     const { id } = req.params;
     const { nome, telefone, cnpj, email } = req.body;
     await userService.editarUsuario(id, nome, telefone, cnpj, email);
-    res.status(204).json("Successo");
+    res.status(204).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro ao editar Usuário",
