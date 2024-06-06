@@ -14,7 +14,7 @@ async function buscarContratos(req, res) {
 }
 
 async function criarContrato(req, res) {
-  const { descricao, data_contrato, valor_total, duracao, assinatura } =
+  const { descricao, data_contrato, valor_total, duracao, assinatura, usuarioId, anuncioId } =
     req.body;
 
   try {
@@ -23,7 +23,9 @@ async function criarContrato(req, res) {
       data_contrato,
       valor_total,
       duracao,
-      assinatura
+      assinatura,
+      usuarioId, 
+      anuncioId
     );
 
     res.status(201).json({ message: "Sucesso" });
@@ -38,7 +40,7 @@ async function criarContrato(req, res) {
 async function editarContrato(req, res) {
   try {
     const { id } = req.params;
-    const { descricao, data_contrato, valor_total, duracao, assinatura } =
+    const { descricao, data_contrato, valor_total, duracao, assinatura, usuarioId, anuncioId } =
       req.params;
 
     await contratoService.editarContrato(
@@ -47,7 +49,9 @@ async function editarContrato(req, res) {
       data_contrato,
       valor_total,
       duracao,
-      assinatura
+      assinatura,
+      usuarioId, 
+      anuncioId
     );
 
     res.status(204).json("Successo");

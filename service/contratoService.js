@@ -15,12 +15,14 @@ async function criarContrato(
   data_contrato,
   valor_total,
   duracao,
-  assinatura
+  assinatura,
+  usuarioId,
+  anuncioId
 ) {
   const connection = await mysql.createConnection(databaseConfig);
 
   const insertContract =
-    "INSERT INTO contrato(descricao, data_contrato, valor_total, duracao, assinatura) VALUES(?, ?, ?)";
+    "INSERT INTO contrato(descricao, data_contrato, valor_total, duracao, assinatura, usuarioId, anuncioId) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
   await connection.query(insertContract, [
     descricao,
@@ -28,6 +30,8 @@ async function criarContrato(
     valor_total,
     duracao,
     assinatura,
+    usuarioId,
+    anuncioId
   ]);
 
   await connection.end();
@@ -44,7 +48,7 @@ async function editarContrato(
   const connection = await mysql.createConnection(databaseConfig);
 
   const updateContract =
-    "UPDATE contrato SET descricao = ?, data_contrato = ?, valor_total = ?, duracao = ?, assinatura = ? WHERE id = ?";
+    "UPDATE contrato SET descricao = ?, data_contrato = ?, valor_total = ?, duracao = ?, assinatura = ?, usuarioId = ?, anuncioId = ? WHERE id = ?";
 
   await connection.query(updateContract, [
     descricao,

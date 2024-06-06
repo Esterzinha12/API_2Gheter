@@ -10,24 +10,24 @@ async function buscarUsuario() {
 
   return rows;
 }
-async function criarUsuario(name, email, password) {
+async function criarUsuario(nome, telefone, cnpj, email) {
   const connection = await mysql.createConnection(databaseConfig);
 
-  const insertUsuario =
-    "INSERT INTO usuario(name, email, password) VALUES(?, ?, ?)";
+  const inserirUsuario =
+    "INSERT INTO usuario(nome, telefone, cnpj, email) VALUES(?, ?, ?, ?)";
 
-  await connection.query(insertUsuario, [name, email, password]);
+  await connection.query(inserirUsuario, [nome, telefone, cnpj, email]);
 
   await connection.end();
 }
 
-async function editarUsuario(id, name, email, password) {
+async function editarUsuario(id, nome, telefone, cnpj, email) {
   const connection = await mysql.createConnection(databaseConfig);
 
-  const updateUsuario =
-    "UPDATE usuario SET name = ?, email = ?, password = ? WHERE id = ?";
+  const editarUsuario =
+    "UPDATE usuario SET nome = ?, telefone = ?, cnpj = ?, email = ? WHERE id = ?";
 
-  await connection.query(updateUsuario, [name, email, password, id]);
+  await connection.query(editarUsuario, [nome, telefone, cnpj, email, id]);
 
   await connection.end();
 }

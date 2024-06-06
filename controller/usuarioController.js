@@ -13,9 +13,9 @@ async function buscarUsuario(req, res) {
 }
 
 async function criarUsuario(req, res) {
-  const { name, email, password } = req.body;
+  const { nome, telefone, cnpj, email } = req.body;
   try {
-    await userService.criarUsuario(name, email, password);
+    await userService.criarUsuario(nome, telefone, cnpj, email);
     res.status(201).json({ message: "sucesso" });
   } catch (error) {
     res.status(500).send({
@@ -28,8 +28,8 @@ async function criarUsuario(req, res) {
 async function editarUsuario(req, res) {
   try {
     const { id } = req.params;
-    const { name, email, password } = req.body;
-    await userService.editarUsuario(id, name, email, password);
+    const { nome, telefone, cnpj, email } = req.body;
+    await userService.editarUsuario(id, nome, telefone, cnpj, email);
     res.status(204).json("Successo");
   } catch (error) {
     res.status(500).send({

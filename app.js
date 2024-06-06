@@ -1,7 +1,7 @@
 const express = require("express");
-const userRouter = require("./router/usuarioRouter.js");
-const contractRouter = require("./router/contratoRouter.js");
-const advertisementRouter = require("./router/anuncioRouter.js");
+const usuarioRouter = require("./router/usuarioRouter.js");
+const contratoRouter = require("./router/contratoRouter.js");
+const anuncioRouter = require("./router/anuncioRouter.js");
 const bodyParser = require("body-parser");
 
 const PORT = 3000;
@@ -13,13 +13,11 @@ app.get("/", (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.use("/api", userRouter);
+app.use("/api", usuarioRouter);
 
-app.use(bodyParser.json());
-app.use("/api1", contractRouter);
+app.use("/api", contratoRouter);
 
-app.use(bodyParser.json());
-app.use("/api2", advertisementRouter);
+app.use("/api",anuncioRouter);
 
 app.listen(PORT, () => {
   console.log("Servidor online!");

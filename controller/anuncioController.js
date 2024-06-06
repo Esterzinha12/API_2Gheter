@@ -21,6 +21,7 @@ async function criarAnuncio(req, res) {
     quantidade_vaga,
     data_anuncio,
     valor_hora,
+    usuarioId
   } = req.body;
 
   try {
@@ -30,7 +31,8 @@ async function criarAnuncio(req, res) {
       descricao,
       quantidade_vaga,
       data_anuncio,
-      valor_hora
+      valor_hora,
+      usuarioId
     );
 
     res.status(201).json({ message: "Sucesso" });
@@ -52,6 +54,7 @@ async function editarAnuncio(req, res) {
       quantidade_vaga,
       data_anuncio,
       valor_hora,
+      usuarioId
     } = req.params;
 
     await anuncioService.editarAnuncio(
@@ -61,7 +64,8 @@ async function editarAnuncio(req, res) {
       descricao,
       quantidade_vaga,
       data_anuncio,
-      valor_hora
+      valor_hora,
+      usuarioId
     );
 
     res.status(204).json("Sucesso");
