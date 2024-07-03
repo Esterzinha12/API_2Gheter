@@ -2,7 +2,7 @@ const anuncioService = require("../service/anuncioService.js");
 
 async function buscarAnuncios(req, res) {
   try {
-    const rows = await anuncioService.getAllAnuncio();
+    const rows = await anuncioService.buscarAnuncios();
 
     res.status(200).json(rows);
   } catch (error) {
@@ -68,7 +68,7 @@ async function editarAnuncio(req, res) {
       usuarioId
     );
 
-    res.status(204).json({message: "Sucesso"});
+    res.status(200).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro editar anuncio!",

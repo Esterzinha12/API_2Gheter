@@ -54,7 +54,7 @@ async function editarContrato(req, res) {
       anuncioId
     );
 
-    res.status(204).json({message: "Sucesso"});
+    res.status(200).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
       message: "Erro ao editar contrato!",
