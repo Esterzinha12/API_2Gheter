@@ -20,6 +20,31 @@ async function createDatabase() {
     console.log(`Erro criar database: ${error}`);
   }
 }
+
+async function dropDatabase() {
+  try {
+    const connection = await mysql.createConnection({
+      host: databaseConfig.host,
+      user: databaseConfig.user,
+      password: databaseConfig.password,
+    });
+
+    await connection.query(`DROP DATABASE IF EXISTS ${databaseConfig.database}`);
+    await connection.end();
+
+    console.log("Database removida!");
+  } catch (error) {
+    console.log(`Erro ao remover database: ${error}`);
+  }
+}
+
+async function resetDatabase() {
+  await dropDatabase();
+  await createDatabase();
+}
+
 module.exports={
-  createDatabase
+  resetDatabase,
+  createDatabase,
+  dropDatabase
 }

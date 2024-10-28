@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run migrate && npm run start:app",
+    "restart": "npm run remigrate && npm run start:app",
     "start:app": "node app.js",
-    "migrate": "node ./migrations/migrations.js"
+    "migrate": "node ./migrations/migrations.js",
+    "remigrate": "node ./migrations/remigrations.js"
   },
   "author": "Your Name",
   "license": "ISC",
