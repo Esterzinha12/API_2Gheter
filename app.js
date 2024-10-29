@@ -13,11 +13,9 @@ app.get("/", (req, res) => {
 });
 
 app.use(bodyParser.json());
-app.use("/api", usuarioRouter);
-
-app.use("/api", contratoRouter);
-
-app.use("/api",anuncioRouter);
+app.use("/usuario", usuarioRouter);
+app.use("/contrato", contratoRouter);
+app.use("/anuncio",anuncioRouter);
 
 app.listen(PORT, () => {
   console.log("Servidor online!");

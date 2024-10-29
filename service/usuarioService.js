@@ -1,62 +1,44 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function buscarUsuario() {
+async function inserirUsuario(nome, cnpj, email, senha, telefone, tipo) {
   const connection = await mysql.createConnection(databaseConfig);
-
-  const [rows] = await connection.query("SELECT * FROM usuario");
-
+  const inserirUsuario = "INSERT INTO usuario(nome, cnpj, email, senha, telefone, tipo) VALUES(?, ?, ?, ?, ?, ?);";
+  await connection.query(inserirUsuario, [nome, cnpj, email, senha, telefone, tipo]);
   await connection.end();
+}
 
+async function buscarUsuarios() {
+  const connection = await mysql.createConnection(databaseConfig);
+  const [rows] = await connection.query("SELECT * FROM usuario;");
+  await connection.end();
   return rows;
 }
-async function criarUsuario(nome, telefone, cnpj, email) {
+
+async function buscarUsuario(nome) {
   const connection = await mysql.createConnection(databaseConfig);
-
-  const inserirUsuario =
-    "INSERT INTO usuario(nome, telefone, cnpj, email) VALUES(?, ?, ?, ?)";
-
-  await connection.query(inserirUsuario, [nome, telefone, cnpj, email]);
-
+  const [usuario] = await connection.query("SELECT * FROM usuario WHERE nome = ?;", [nome]);
   await connection.end();
-}
-
-async function editarUsuario(id, nome, telefone, cnpj, email) {
-  const connection = await mysql.createConnection(databaseConfig);
-
-  const editarUsuario =
-    "UPDATE usuario SET nome = ?, telefone = ?, cnpj = ?, email = ? WHERE id = ?";
-
-  await connection.query(editarUsuario, [nome, telefone, cnpj, email, id]);
-
-  await connection.end();
-}
-
-async function deletarUsuario(id) {
-  const connection = await mysql.createConnection(databaseConfig);
-
-  await connection.query("DELETE FROM usuario WHERE id = ?", [id]);
-
-  await connection.end();
-}
-
-async function buscarUsuarioId(id) {
-  const connection = await mysql.createConnection(databaseConfig);
-
-  const [usuario] = await connection.query(
-    "SELECT * FROM usuario WHERE id = ?",
-    [id]
-  );
-
-  await connection.end();
-
   return usuario;
 }
 
+async function editarUsuario(chave, nome, cnpj, email, senha, telefone, tipo) {
+  const connection = await mysql.createConnection(databaseConfig);
+  const editarUsuario = "UPDATE usuario SET nome = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, tipo = ? WHERE nome = ?;";
+  await connection.query(editarUsuario, [nome, cnpj, email, senha, telefone, tipo, chave]);
+  await connection.end();
+}
+
+async function deletarUsuario(nome) {
+  const connection = await mysql.createConnection(databaseConfig);
+  await connection.query("DELETE FROM usuario WHERE nome = ?;", [nome]);
+  await connection.end();
+}
+
 module.exports = {
+  inserirUsuario,
+  buscarUsuarios,
   buscarUsuario,
-  criarUsuario,
   editarUsuario,
-  deletarUsuario,
-  buscarUsuarioId,
+  deletarUsuario
 };

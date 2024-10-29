@@ -1,25 +1,38 @@
 const userService = require("../service/usuarioService.js");
 
-async function buscarUsuario(req, res) {
+async function inserirUsuario(req, res) {
+  const { nome, cnpj, email, senha, telefone, tipo } = req.body;
   try {
-    const rows = await userService.buscarUsuario();
+    await userService.inserirUsuario(nome, cnpj, email, senha, telefone, tipo);
+    res.status(201).json({ message: "Sucesso" });
+  } catch (error) {
+    res.status(500).send({
+      message: "Erro ao criar usuário",
+      error: error.message,
+    });
+  }
+}
+
+async function buscarUsuarios(req, res) {
+  try {
+    const rows = await userService.buscarUsuarios();
     res.status(200).json(rows);
   } catch (error) {
     res.status(500).send({
-      message: "Erro ao buscar Usuário",
+      message: "Erro ao buscar usuários",
       body: error.message,
     });
   }
 }
 
-async function criarUsuario(req, res) {
-  const { nome, telefone, cnpj, email } = req.body;
+async function buscarUsuario(req, res) {
   try {
-    await userService.criarUsuario(nome, telefone, cnpj, email);
-    res.status(201).json({ message: "sucesso" });
+    const { nome } = req.params;
+    const user = await userService.buscarUsuario(nome);
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).send({
-      message: "Erro ao criar Usuário",
+      message: "Erro ao buscar usuário por nome",
       error: error.message,
     });
   }
@@ -27,13 +40,13 @@ async function criarUsuario(req, res) {
 
 async function editarUsuario(req, res) {
   try {
-    const { id } = req.params;
-    const { nome, telefone, cnpj, email } = req.body;
-    await userService.editarUsuario(id, nome, telefone, cnpj, email);
+    const { chave } = req.params;
+    const { nome, cnpj, email, senha, telefone, tipo } = req.body;
+    await userService.editarUsuario(chave, nome, cnpj, email, senha, telefone, tipo);
     res.status(200).json({message: "Sucesso"});
   } catch (error) {
     res.status(500).send({
-      message: "Erro ao editar Usuário",
+      message: "Erro ao editar usuário",
       error: error.message,
     });
   }
@@ -41,34 +54,21 @@ async function editarUsuario(req, res) {
 
 async function deletarUsuario(req, res) {
   try {
-    const { id } = req.params;
-    await userService.deletarUsuario(id);
+    const { nome } = req.params;
+    await userService.deletarUsuario(nome);
     res.status(200).send({ message: "Usuário deletado" });
   } catch (error) {
     res.status(500).send({
-      message: "Erro ao deletar Usuário",
-      error: error.message,
-    });
-  }
-}
-
-async function buscarUsuarioId(req, res) {
-  try {
-    const { id } = req.params;
-    const user = await userService.buscarUsuarioId(id);
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).send({
-      message: "Erro ao buscar usuário id",
+      message: "Erro ao deletar usuário",
       error: error.message,
     });
   }
 }
 
 module.exports = {
+  inserirUsuario,
+  buscarUsuarios,
   buscarUsuario,
-  criarUsuario,
   editarUsuario,
-  deletarUsuario,
-  buscarUsuarioId,
+  deletarUsuario
 };
