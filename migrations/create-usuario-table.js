@@ -14,7 +14,7 @@ async function createUsuarioTable() {
         email VARCHAR(255) NOT NULL,
         senha VARCHAR(100) NOT NULL,
         telefone VARCHAR(11) NOT NULL,
-        tipo INT NOT NULL
+        tipo tinyint NOT NULL
     )`);
 
     await connection.end();
