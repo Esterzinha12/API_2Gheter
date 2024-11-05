@@ -1,44 +1,29 @@
 const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
-async function inserirUsuario(nome, cnpj, email, senha, telefone, tipo) {
+async function cadastrarUsuario(nome, cnpj, email, senha, telefone, tipo) {
   const connection = await mysql.createConnection(databaseConfig);
-  const inserirUsuario = "INSERT INTO usuario(nome, cnpj, email, senha, telefone, tipo) VALUES(?, ?, ?, ?, ?, ?);";
-  await connection.query(inserirUsuario, [nome, cnpj, email, senha, telefone, tipo]);
+  const cadastrarUsuario = "INSERT INTO usuario(nome, cnpj, email, senha, telefone, tipo) VALUES(?, ?, ?, ?, ?, ?);";
+  await connection.query(cadastrarUsuario, [nome, cnpj, email, senha, telefone, tipo]);
   await connection.end();
 }
 
-async function buscarUsuarios() {
+async function buscarUsuario(email) {
   const connection = await mysql.createConnection(databaseConfig);
-  const [rows] = await connection.query("SELECT * FROM usuario;");
-  await connection.end();
-  return rows;
-}
-
-async function buscarUsuario(nome) {
-  const connection = await mysql.createConnection(databaseConfig);
-  const [usuario] = await connection.query("SELECT * FROM usuario WHERE nome = ?;", [nome]);
+  const [usuario] = await connection.query("SELECT * FROM usuario WHERE email = ?;", [email]);
   await connection.end();
   return usuario;
 }
 
-async function editarUsuario(chave, nome, cnpj, email, senha, telefone, tipo) {
+async function editarUsuario(email, novaSenha) {
   const connection = await mysql.createConnection(databaseConfig);
-  const editarUsuario = "UPDATE usuario SET nome = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, tipo = ? WHERE nome = ?;";
-  await connection.query(editarUsuario, [nome, cnpj, email, senha, telefone, tipo, chave]);
-  await connection.end();
-}
-
-async function deletarUsuario(nome) {
-  const connection = await mysql.createConnection(databaseConfig);
-  await connection.query("DELETE FROM usuario WHERE nome = ?;", [nome]);
+  const editarUsuario = "UPDATE usuario SET senha = ? WHERE email = ?;";
+  await connection.query(editarUsuario, [novaSenha, email]);
   await connection.end();
 }
 
 module.exports = {
-  inserirUsuario,
-  buscarUsuarios,
+  cadastrarUsuario,
   buscarUsuario,
-  editarUsuario,
-  deletarUsuario
+  editarUsuario
 };
