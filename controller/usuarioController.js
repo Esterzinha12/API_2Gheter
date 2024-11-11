@@ -72,7 +72,7 @@ async function recadastrarSenha(req, res) {
       return res.status(400).json({ message: "Erro no cadastro! A senha deve ser diferente da atual." });
     }
 
-    await userService.buscarUsuario(email);
+    await userService.editarUsuario(email, novaSenha);
 
     return res.status(200).json({ message: "Senha recadastrada com sucesso!" });
   } catch (error) {
