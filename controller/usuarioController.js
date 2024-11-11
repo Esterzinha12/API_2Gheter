@@ -13,7 +13,7 @@ async function cadastrarUsuario(req, res) {
   if (!validarCNPJ(cnpjNumerico)) return res.status(400).json({ message: "Erro no cadastro! CNPJ inválido." });
   if (!validarTelefone(telefone)) return res.status(400).json({ message: "Erro no cadastro! Telefone inválido." });
   if (!validarEmail(email)) return res.status(400).json({ message: "Erro no cadastro! Email inválido." });
-  formatarTelefone(telefone)
+  const telefoneFormatado = formatarTelefone(telefone)
 
   try {
     const usuarioExistente = await userService.buscarUsuario(email);
@@ -21,7 +21,7 @@ async function cadastrarUsuario(req, res) {
       return res.status(400).json({ message: "Erro no cadastro! Email já cadastrado." });
     }
 
-    await userService.cadastrarUsuario(nome, cnpjNumerico, email, senha, telefone, tipo);
+    await userService.cadastrarUsuario(nome, cnpjNumerico, email, senha, telefoneFormatado, tipo);
     res.status(201).json({ message: "Usuário cadastrado com sucesso!" });
   } catch (error) {
     res.status(500).json({ message: "Erro ao criar usuário", error: error.message });
@@ -117,23 +117,19 @@ function validarEmail(email) {
 
 function validarTelefone(telefone) {
   const telefoneLimpo = telefone.replace(/[^\d]/g, "");
-  const regexComDDD11 = /^(\d{2})?9\d{4}\d{4}$/;
-  const regexComDDD10 = /^(\d{2})?\d{4}\d{4}$/;
-  const regexSemDDD11 = /^9\d{4}\d{4}$/;
-  const regexSemDDD10 = /^\d{4}\d{4}$/;
-
-  if (regexComDDD11.test(telefoneLimpo) || regexComDDD10.test(telefoneLimpo) ||
-      regexSemDDD11.test(telefoneLimpo) || regexSemDDD10.test(telefoneLimpo)) {
-    return true;
-  }
-
-  return false;
+  const regexComDDD11 = /^\d{2}9?\d{4}\d{4}$/;
+  return regexComDDD11.test(telefoneLimpo);
 }
 
 function formatarTelefone(telefone) {
-  return telefone.length === 10
-    ? `(${telefone.slice(0, 2)}) ${telefone.slice(2, 6)}-${telefone.slice(6)}`
-    : `(${telefone.slice(0, 2)}) ${telefone.slice(2, 7)}-${telefone.slice(7)}`;
+  const telefoneLimpo = telefone.replace(/[^\d]/g, "");
+  if (telefoneLimpo.length === 11) {
+    return `(${telefoneLimpo.slice(0, 2)}) ${telefoneLimpo.slice(2, 7)}-${telefoneLimpo.slice(7)}`;
+  } else if (telefoneLimpo.length === 10) {
+    return `(${telefoneLimpo.slice(0, 2)}) ${telefoneLimpo.slice(2, 6)}-${telefoneLimpo.slice(6)}`;
+  } else {
+    return telefone;
+  }
 }
 
 function formatarCNPJ(cnpj) {
