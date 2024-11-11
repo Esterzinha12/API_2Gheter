@@ -17,7 +17,7 @@ async function cadastrarUsuario(req, res) {
 
   try {
     const usuarioExistente = await userService.buscarUsuario(email);
-    if (usuarioExistente && usuarioExistente.length > 0) {
+    if (usuarioExistente) {
       return res.status(400).json({ message: "Erro no cadastro! Email já cadastrado." });
     }
 
@@ -37,11 +37,16 @@ async function logarUsuario(req, res) {
 
   try {
     const usuario = await userService.buscarUsuario(email);
-    if (!usuario || usuario.senha !== senha) {
+    if (!usuario) {
+      return res.status(404).json({ message: "Erro! Usuário não encontrado." });
+    }
+    
+    if (usuario.senha !== senha) {
       return res.status(400).json({ message: "Erro! Senha inválida." });
     }
 
     const usuarioFormatado = {
+      id: usuario.id,
       nome: usuario.nome,
       cnpj: formatarCNPJ(usuario.cnpj),
       email: usuario.email,

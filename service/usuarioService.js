@@ -10,9 +10,9 @@ async function cadastrarUsuario(nome, cnpj, email, senha, telefone, tipo) {
 
 async function buscarUsuario(email) {
   const connection = await mysql.createConnection(databaseConfig);
-  const [usuario] = await connection.query("SELECT * FROM usuario WHERE email = ?;", [email]);
+  const [usuarios] = await connection.query("SELECT * FROM usuario WHERE email = ?;", [email]);
   await connection.end();
-  return usuario;
+  return usuarios[0];
 }
 
 async function editarUsuario(email, novaSenha) {
