@@ -13,7 +13,7 @@ async function createUsuarioTable() {
         cnpj VARCHAR(14) NOT NULL,
         email VARCHAR(255) NOT NULL,
         senha VARCHAR(100) NOT NULL,
-        telefone VARCHAR(11) NOT NULL,
+        telefone VARCHAR(15) NOT NULL,
         tipo tinyint NOT NULL
     )`);
 

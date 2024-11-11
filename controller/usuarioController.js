@@ -13,6 +13,7 @@ async function cadastrarUsuario(req, res) {
   if (!validarCNPJ(cnpjNumerico)) return res.status(400).json({ message: "Erro no cadastro! CNPJ inválido." });
   if (!validarTelefone(telefone)) return res.status(400).json({ message: "Erro no cadastro! Telefone inválido." });
   if (!validarEmail(email)) return res.status(400).json({ message: "Erro no cadastro! Email inválido." });
+  formatarTelefone(telefone)
 
   try {
     const usuarioExistente = await userService.buscarUsuario(email);
@@ -116,16 +117,16 @@ function validarEmail(email) {
 
 function validarTelefone(telefone) {
   const telefoneLimpo = telefone.replace(/[^\d]/g, "");
-  const tamanho = telefoneLimpo.length;
+  const regexComDDD11 = /^(\d{2})?9\d{4}\d{4}$/;
+  const regexComDDD10 = /^(\d{2})?\d{4}\d{4}$/;
+  const regexSemDDD11 = /^9\d{4}\d{4}$/;
+  const regexSemDDD10 = /^\d{4}\d{4}$/;
 
-  if (tamanho === 11) {
-    if (telefoneLimpo[0] === '9') {
-      return true;
-    }
+  if (regexComDDD11.test(telefoneLimpo) || regexComDDD10.test(telefoneLimpo) ||
+      regexSemDDD11.test(telefoneLimpo) || regexSemDDD10.test(telefoneLimpo)) {
+    return true;
   }
 
-  if (tamanho === 10)  true;
-  if (tamanho === 8) true;
   return false;
 }
 
