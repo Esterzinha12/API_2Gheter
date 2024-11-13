@@ -9,16 +9,14 @@ await connection.query(`USE ${databaseConfig.database}`);
 
     await connection.query(`CREATE TABLE IF NOT EXISTS anuncio (
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      empresa VARCHAR(45) NOT NULL,
-      funcao_vaga VARCHAR(45) NOT NULL,
+      titulo VARCHAR(1000) NOT NULL,
+      estados VARCHAR(1000) NOT NULL,
+      cidades VARCHAR(1000) NOT NULL,
       descricao VARCHAR(1000) NOT NULL,
-      quantidade_vaga INT NOT NULL,
-      data_anuncio DATE,
-      valor_hora DOUBLE NOT NULL,
+      valorHora DOUBLE NOT NULL,
+      dataAnuncio DATE,
       usuarioId INT NOT NULL,
       FOREIGN KEY (usuarioId) REFERENCES usuario(id)
-      ON DELETE CASCADE
-      ON UPDATE CASCADE
     )`);
 
     await connection.end();
@@ -30,5 +28,5 @@ await connection.query(`USE ${databaseConfig.database}`);
 }
 
 module.exports={
-createAnuncioTable
+  createAnuncioTable
 }
