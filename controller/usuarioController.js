@@ -3,22 +3,22 @@ const userService = require("../service/usuarioService.js");
 async function cadastrarUsuario(req, res) {
   const { nome, cnpj, email, senha, telefone, tipo } = req.body;
 
-  if (!nome) return res.status(400).json({ message: "Erro no cadastro! Nome é obrigatório." });
-  if (!email) return res.status(400).json({ message: "Erro no cadastro! Email é obrigatório." });
-  if (!cnpj) return res.status(400).json({ message: "Erro no cadastro! CNPJ é obrigatório." });
-  if (!telefone) return res.status(400).json({ message: "Erro no cadastro! Telefone é obrigatório." });
-  if (!senha) return res.status(400).json({ message: "Erro no cadastro! Senha é obrigatória." });
+  if (!nome) return res.status(400).json({ message: "Erro! Nome é obrigatório." });
+  if (!email) return res.status(400).json({ message: "Erro! Email é obrigatório." });
+  if (!cnpj) return res.status(400).json({ message: "Erro! CNPJ é obrigatório." });
+  if (!telefone) return res.status(400).json({ message: "Erro! Telefone é obrigatório." });
+  if (!senha) return res.status(400).json({ message: "Erro! Senha é obrigatória." });
   
   const cnpjNumerico = cnpj.replace(/[^\d]/g, "")
-  if (!validarCNPJ(cnpjNumerico)) return res.status(400).json({ message: "Erro no cadastro! CNPJ inválido." });
-  if (!validarTelefone(telefone)) return res.status(400).json({ message: "Erro no cadastro! Telefone inválido." });
-  if (!validarEmail(email)) return res.status(400).json({ message: "Erro no cadastro! Email inválido." });
+  if (!validarCNPJ(cnpjNumerico)) return res.status(400).json({ message: "Erro! CNPJ inválido." });
+  if (!validarTelefone(telefone)) return res.status(400).json({ message: "Erro! Telefone inválido." });
+  if (!validarEmail(email)) return res.status(400).json({ message: "Erro! Email inválido." });
   const telefoneFormatado = formatarTelefone(telefone)
 
   try {
     const usuarioExistente = await userService.buscarUsuario(email);
     if (usuarioExistente) {
-      return res.status(400).json({ message: "Erro no cadastro! Email já cadastrado." });
+      return res.status(400).json({ message: "Erro! Email já cadastrado." });
     }
 
     await userService.cadastrarUsuario(nome, cnpjNumerico, email, senha, telefoneFormatado, tipo);
@@ -28,7 +28,7 @@ async function cadastrarUsuario(req, res) {
   }
 }
 
-async function logarUsuario(req, res) {
+async function loginUsuario(req, res) {
   const { email, senha } = req.body;
 
   if (!email) return res.status(400).json({ message: "Erro! Email é obrigatório." });
@@ -62,14 +62,16 @@ async function logarUsuario(req, res) {
 async function recadastrarSenha(req, res) {
   const { email, novaSenha } = req.body;
 
-  if (!email) return res.status(400).json({ message: "Erro no cadastro! Email é obrigatório." });
-  if (!validarEmail(email)) return res.status(400).json({ message: "Erro no cadastro! Email inválido." });
-  if (!novaSenha) return res.status(400).json({ message: "Erro no cadastro! Senha é obrigatória." });
+  if (!email) return res.status(400).json({ message: "Erro! Email é obrigatório." });
+  if (!validarEmail(email)) return res.status(400).json({ message: "Erro! Email inválido." });
+  if (!novaSenha) return res.status(400).json({ message: "Erro! Senha é obrigatória." });
 
   try {
     const usuarioExistente = await userService.buscarUsuario(email);
-    if (usuarioExistente && usuarioExistente.senha === novaSenha) {
-      return res.status(400).json({ message: "Erro no cadastro! A senha deve ser diferente da atual." });
+    if (usuarioExistente === undefined) {
+      return res.status(400).json({ message: "Erro! Usuário não encontrado." });
+    } else if (usuarioExistente.novaSenha === novaSenha) {
+      return res.status(400).json({ message: "Erro! A senha deve ser diferente da atual." });
     }
 
     await userService.editarUsuario(email, novaSenha);
@@ -143,6 +145,6 @@ function formatarCNPJ(cnpj) {
 
 module.exports = {
   cadastrarUsuario,
-  logarUsuario,
+  loginUsuario,
   recadastrarSenha
 };

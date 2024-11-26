@@ -16,10 +16,39 @@ async function cadastrarAnuncio(titulo, estados, cidades, descricao, valorHora, 
   await connection.end();
 }
 
-async function editarAnuncio(id, titulo, estados, cidades, descricao, valorHora) {
+async function editarAnuncio(id, { titulo, estados, cidades, descricao, valorHora }) {
   const connection = await mysql.createConnection(databaseConfig);
-  const editarAnuncio = "UPDATE anuncio SET titulo = ?, estados = ?, cidades = ?, descricao = ?, valorHora = ? WHERE id = ?";
-  await connection.query(editarAnuncio, [titulo, estados, cidades, descricao, valorHora, id]);
+
+  const campos = [];
+  const valores = [];
+  if (titulo !== undefined) {
+    campos.push("titulo = ?");
+    valores.push(titulo);
+  }
+  if (estados !== undefined) {
+    campos.push("estados = ?");
+    valores.push(estados);
+  }
+  if (cidades !== undefined) {
+    campos.push("cidades = ?");
+    valores.push(cidades);
+  }
+  if (descricao !== undefined) {
+    campos.push("descricao = ?");
+    valores.push(descricao);
+  }
+  if (valorHora !== undefined) {
+    campos.push("valorHora = ?");
+    valores.push(valorHora);
+  }
+  if (campos.length === 0) {
+    throw new Error("Nenhum campo para atualizar foi fornecido.");
+  }
+
+  const editarAnuncio = `UPDATE anuncio SET ${campos.join(", ")} WHERE id = ?`;
+  valores.push(id);
+
+  await connection.query(editarAnuncio, valores);
   await connection.end();
 }
 
