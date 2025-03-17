@@ -4,7 +4,7 @@ const contratoRouter = require("./router/contratoRouter.js");
 const anuncioRouter = require("./router/anuncioRouter.js");
 const bodyParser = require("body-parser");
 
-const PORT = 3000;
+const PORT = 3030;
 
 const app = express();
 
@@ -20,6 +20,6 @@ app.use("/usuario", usuarioRouter);
 app.use("/contrato", contratoRouter);
 app.use("/anuncio", anuncioRouter);
 
-app.listen(3000, '0.0.0.0', () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log("Servidor online!");
 });

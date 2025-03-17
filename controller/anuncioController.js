@@ -35,6 +35,7 @@ async function cadastrarAnuncio(req, res) {
 
 async function editarAnuncio(req, res) {
   const {id, titulo, estados, cidades, descricao, valorHora} = req.body;
+
   try {
     await anuncioService.editarAnuncio(id, titulo, estados, cidades, descricao, valorHora);
     res.status(200).json({message: "Anúncio editado com sucesso!"});

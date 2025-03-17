@@ -16,7 +16,8 @@ async function cadastrarAnuncio(titulo, estados, cidades, descricao, valorHora, 
   await connection.end();
 }
 
-async function editarAnuncio(id, { titulo, estados, cidades, descricao, valorHora }) {
+async function editarAnuncio(id, titulo, estados, cidades, descricao, valorHora ) {
+  console.log(id, titulo)
   const connection = await mysql.createConnection(databaseConfig);
 
   const campos = [];
