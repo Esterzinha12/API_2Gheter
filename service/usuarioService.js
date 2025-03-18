@@ -22,7 +22,15 @@ async function editarUsuario(email, novaSenha) {
   await connection.end();
 }
 
+async function buscarUsuarioId(id) {
+  const connection = await mysql.createConnection(databaseConfig);
+  const [advertisement] = await connection.query("SELECT * FROM usuario WHERE id = ?", [id]);
+  await connection.end();
+  return advertisement;
+}
+
 module.exports = {
+  buscarUsuarioId,
   cadastrarUsuario,
   buscarUsuario,
   editarUsuario

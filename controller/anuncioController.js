@@ -73,7 +73,21 @@ async function buscarAnuncioId(req, res) {
   }
 }
 
+async function buscarAnuncioUserId(req, res) {
+  try {
+    const { id } = req.params;
+    const anuncio = await anuncioService.buscarAnuncioUserId(id);
+    res.status(200).json(anuncio);
+  } catch (error) {
+    res.status(500).send({
+      message: "Erro ao buscar anuncio por Usuarioid",
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
+  buscarAnuncioUserId,
   buscarAnuncios,
   cadastrarAnuncio,
   editarAnuncio,

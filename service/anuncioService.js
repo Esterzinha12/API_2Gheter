@@ -66,7 +66,15 @@ async function buscarAnuncioId(id) {
   return advertisement;
 }
 
+async function buscarAnuncioUserId(id) {
+  const connection = await mysql.createConnection(databaseConfig);
+  const [advertisement] = await connection.query("SELECT * FROM anuncio WHERE usuarioId = ?", [id]);
+  await connection.end();
+  return advertisement;
+}
+
 module.exports = {
+  buscarAnuncioUserId,
   buscarAnuncios,
   cadastrarAnuncio,
   editarAnuncio,
