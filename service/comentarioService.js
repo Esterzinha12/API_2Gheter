@@ -16,7 +16,9 @@ async function editarComentario(id, descricao) {
 
 async function buscarComentarioId(anuncioId) {
   const connection = await mysql.createConnection(databaseConfig);
-  const [advertisement] = await connection.query("SELECT * FROM comentario WHERE anuncioId = ?", [anuncioId]);
+
+  const [advertisement] = await connection.query("SELECT * FROM comentario WHERE usuarioId = ?", [anuncioId]);
+  
   await connection.end();
   return advertisement;
 }

@@ -3,8 +3,13 @@ const comentarioService = require("../service/comentarioService.js");
 async function cadastrarComentario(req, res) {
   const { descricao, usuarioId, anuncioId } =
     req.body;
-
+  
   try {
+    const verificacao = await comentarioService.buscarComentarioId(anuncioId);
+    if(verificacao.length >= 5) {
+      return res.status(403).json({ message: "Erro! Usuário não encontrado." });
+    }
+
     await comentarioService.cadastrarComentario(
       descricao,
       usuarioId, 
@@ -23,14 +28,12 @@ async function cadastrarComentario(req, res) {
 async function editarComentario(req, res) {
   try {
     const { id } = req.params;
-    const { descricao, usuarioId, anuncioId } =
+    const { descricao } =
       req.body;
 
     await comentarioService.editarComentario(
       id,
-      descricao,
-      usuarioId, 
-      anuncioId
+      descricao
     );
 
     res.status(200).json({message: "Sucesso"});
@@ -62,6 +65,8 @@ async function buscarComentarioId(req, res) {
     const { anuncioId } = req.params;
 
     const comentario = await comentarioService.buscarComentarioId(anuncioId);
+
+    console.log(comentario)
 
     res.status(200).json(comentario);
   } catch (error) {

@@ -10,6 +10,7 @@ await connection.query(`USE ${databaseConfig.database}`);
     await connection.query(`CREATE TABLE IF NOT EXISTS comentario (
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       descricao VARCHAR(250) NOT NULL,
+      dataComentario TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       usuarioId INT NOT NULL,
       FOREIGN KEY (usuarioId) REFERENCES usuario(id),
       anuncioId INT NOT NULL,
