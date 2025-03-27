@@ -3,14 +3,12 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+
 RUN npm ci
 
 COPY . .
 
-RUN apk add --no-cache mysql mysql-client
+EXPOSE 3030
 
-RUN mkdir -p /var/lib/mysql && chown -R mysql:mysql /var/lib/mysql
+CMD ["npm", "start"]
 
-EXPOSE 3000 3306
-
-CMD sh -c "mysqld_safe & sleep 10 && node app.js"

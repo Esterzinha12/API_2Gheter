@@ -7,6 +7,7 @@ async function createDatabase() {
       host: databaseConfig.host,
       user: databaseConfig.user,
       password: databaseConfig.password,
+      port: databaseConfig.port
     });
 
     await connection.query(

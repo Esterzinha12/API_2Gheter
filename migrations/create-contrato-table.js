@@ -10,7 +10,7 @@ await connection.query(`USE ${databaseConfig.database}`);
     await connection.query(`CREATE TABLE IF NOT EXISTS contrato (
       id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
       descricao VARCHAR(1000) NOT NULL,
-      data_contrato DATE NOT NULL,
+      data_contrato TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       valor_total VARCHAR(15) NOT NULL,
       duracao VARCHAR(45) NOT NULL,
       assinatura VARCHAR(45) NOT NULL,

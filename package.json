@@ -4,7 +4,7 @@
   "description": "Your project description",
   "main": "index.js",
   "scripts": {
-    "start": "npm run migrate && npm run start:app",
+    "start": "sleep 5 && npm run migrate && npm run start:app",
     "restart": "npm run remigrate && npm run start:app",
     "start:app": "node app.js",
     "migrate": "node ./migrations/migrations.js",

@@ -16,7 +16,8 @@ async function cadastrarAnuncio(titulo, estados, cidades, descricao, valorHora, 
   await connection.end();
 }
 
-async function editarAnuncio(id, { titulo, estados, cidades, descricao, valorHora }) {
+async function editarAnuncio(id, titulo, estados, cidades, descricao, valorHora ) {
+  console.log(id, titulo)
   const connection = await mysql.createConnection(databaseConfig);
 
   const campos = [];
@@ -65,7 +66,15 @@ async function buscarAnuncioId(id) {
   return advertisement;
 }
 
+async function buscarAnuncioUserId(id) {
+  const connection = await mysql.createConnection(databaseConfig);
+  const [advertisement] = await connection.query("SELECT * FROM anuncio WHERE usuarioId = ?", [id]);
+  await connection.end();
+  return advertisement;
+}
+
 module.exports = {
+  buscarAnuncioUserId,
   buscarAnuncios,
   cadastrarAnuncio,
   editarAnuncio,

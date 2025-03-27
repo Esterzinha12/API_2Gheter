@@ -7,5 +7,6 @@ router.post("/cadastrar", anuncioController.cadastrarAnuncio);
 router.put("/editar", anuncioController.editarAnuncio);
 router.delete("/deletar/:id", anuncioController.deletarAnuncio);
 router.get("/buscar/:id", anuncioController.buscarAnuncioId);
+router.get("/buscarUser/:id", anuncioController.buscarAnuncioUserId);
 
 module.exports = router;

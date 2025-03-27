@@ -1,5 +1,19 @@
 const userService = require("../service/usuarioService.js");
 
+async function buscarUsuarioId(req, res) {
+  try {
+    const { id } = req.params;
+    const usuario = await userService.buscarUsuarioId(id);
+    res.status(200).json(usuario);
+  } catch (error) {
+    res.status(500).send({
+      message: "Erro ao buscar usuario por id",
+      error: error.message,
+    });
+  }
+}
+
+
 async function cadastrarUsuario(req, res) {
   const { nome, cnpj, email, senha, telefone, tipo } = req.body;
 
@@ -144,6 +158,7 @@ function formatarCNPJ(cnpj) {
 }
 
 module.exports = {
+  buscarUsuarioId,
   cadastrarUsuario,
   loginUsuario,
   recadastrarSenha

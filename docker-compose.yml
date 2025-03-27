@@ -1,18 +1,30 @@
-version: '3.8'
-
 services:
-  app:
-    build: .
+  db:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_DATABASE: db
+      MYSQL_USER: admin              
+      MYSQL_PASSWORD: root
     ports:
-      - "3000:3000"
-      - "3306:3306"
+      - "3310:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "--password=root"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: --bind-address=0.0.0.0
     volumes:
       - mysql_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: 2Gheter
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-
+  app:
+    build: .
+    container_name: app
+    ports:
+      - "3030:3030"
+    depends_on:
+      db:
+        condition: service_healthy
 volumes:
   mysql_data:
