@@ -1,5 +1,5 @@
 module.exports = {
-  host: "db", 
+  host: "localhost", 
   user: "root",
   password: "root",
   database: "2Gether",

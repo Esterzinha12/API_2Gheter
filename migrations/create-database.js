@@ -10,10 +10,7 @@ async function createDatabase() {
       port: databaseConfig.port
     });
 
-    await connection.query(
-       `CREATE DATABASE IF NOT EXISTS ${databaseConfig.database}`
-    );
-
+    await connection.query(`CREATE DATABASE IF NOT EXISTS ${databaseConfig.database}`);
     await connection.end();
 
     console.log("Database criada!");

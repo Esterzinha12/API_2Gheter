@@ -1,16 +1,16 @@
 {
-  "name": "your-project-name",
+  "name": "2gheter",
   "version": "1.0.0",
-  "description": "Your project description",
+  "description": "Study project",
   "main": "index.js",
   "scripts": {
-    "start": "sleep 5 && npm run migrate && npm run start:app",
+    "start": "npm run migrate && npm run start:app",
     "restart": "npm run remigrate && npm run start:app",
     "start:app": "node app.js",
     "migrate": "node ./migrations/migrations.js",
     "remigrate": "node ./migrations/remigrations.js"
   },
-  "author": "Your Name",
+  "author": "Mateus M., Ester, Gui e Felipe",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
