@@ -11,7 +11,6 @@ async function cadastrarUsuario(nome, cnpj, email, senha, telefone, tipo) {
 async function buscarUsuario(email) {
   const connection = await mysql.createConnection(databaseConfig);
   const [usuarios] = await connection.query("SELECT * FROM usuario WHERE email = ?;", [email]);
-  console.log("Buscando usuário com email: ", email);
   await connection.end();
   return usuarios[0];
 }

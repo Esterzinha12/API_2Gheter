@@ -47,7 +47,7 @@ app.get("/", (req, res) => {
     <body>
       <h1>2Gether</h1>
       <ul>
-        <li>/usuarios</li>
+        <li>/usuario</li>
         <li>/buscar/:id - EndPoint Usuario</li>
         <li>/cadastrar - EndPoint Usuario</li>
         <li>/login - EndPoint Usuario</li>

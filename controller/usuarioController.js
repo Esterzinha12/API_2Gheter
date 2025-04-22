@@ -66,14 +66,17 @@ async function cadastrarUsuario(req, res) {
   
   try {
     const telefoneFormatado = formatarTelefone(telefone)
+    console.log("Buscando usuário com email: ", email);
     const usuarioExistente = await userService.buscarUsuario(email);
 
     if (usuarioExistente) {
       console.warn("Tentativa de cadastro com email já existente:", email);
       return res.status(400).json({ message: "Erro! Email já cadastrado." });
+    } else {
+      console.log("Nenhum email encontrado, registrando novo usuário: ", email);
     }
 
-    await userService.cadastrarUsuario(nome, cnpjNumerico, email, senha, telefoneFormatado, tipo);
+    await userService.cadastrarUsuario(nome, cnpjNumerico, email, senha, telefoneFormatado, 1);
     console.log("Usuário cadastrado com sucesso:", email);
 
     res.status(201).json({ message: "Usuário cadastrado com sucesso!" });
